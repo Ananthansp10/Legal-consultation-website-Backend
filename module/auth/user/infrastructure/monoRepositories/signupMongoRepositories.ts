@@ -1,6 +1,8 @@
 import { UserSignup } from "../../domain/userSignup";
 import { UserSignupRepo } from "../../interface/repositories/signupRepositories";
 import { UserModel } from "../model/userModel";
+import { otpModel } from "../model/otpModel";
+import { OtpEntitie } from "../../domain/otpEntitie";
 
 export class SignupMongoRepo implements UserSignupRepo{
 
@@ -21,6 +23,15 @@ export class SignupMongoRepo implements UserSignupRepo{
     async activateUser(email: string): Promise<boolean> {
         let user=await UserModel.updateOne({email:email},{$set:{isActive:true}})
         return user.modifiedCount>0;
+    }
+
+    async saveOtp(otp: OtpEntitie): Promise<void> {
+        await otpModel.create(otp)
+    }
+
+    async findOtp(userId: string): Promise<OtpEntitie | null> {
+        let data=await otpModel.findOne({userId:userId})
+        return data;
     }
 
 }

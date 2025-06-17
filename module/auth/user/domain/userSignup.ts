@@ -5,4 +5,5 @@ export interface UserSignup{
     phoneNumber:number;
     isActive:boolean;
     createdAt:Date;
+    _id ? :string
 }

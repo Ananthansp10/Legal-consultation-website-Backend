@@ -1,5 +1,8 @@
 import { UserSignup } from "../domain/userSignup";
 import { UserSignupRepo } from "../interface/repositories/signupRepositories"
+import { sendOtpMail } from "../../../../utils/nodemailer";
+import { otpGenerate } from "../../../../utils/otpGeneration";
+import { OtpEntitie } from "../domain/otpEntitie";
 const bcrypt=require('bcrypt')
 
 export const userSignupApplication=async(data:UserSignup,userRepo:UserSignupRepo)=>{
@@ -16,6 +19,16 @@ export const userSignupApplication=async(data:UserSignup,userRepo:UserSignupRepo
             phoneNumber:data.phoneNumber,
             isActive:data.isActive,
             createdAt:new Date()
+        })
+        const otp=await otpGenerate()
+        const otpObj :OtpEntitie={
+            userId:newUser._id,
+            otp:otp.hashedOtp,
+            expiresAt:new Date(Date.now()+60*1000)
+        }
+        await userRepo.saveOtp(otpObj)
+        sendOtpMail(newUser.email,otp.otp).then(()=>{
+            return newUser;
         })
         return newUser;
     }
