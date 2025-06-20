@@ -22,7 +22,7 @@ export const userSignupApplication=async(data:UserSignup,userRepo:UserSignupRepo
         })
         const otp=await otpGenerate()
         const otpObj :OtpEntitie={
-            userId:newUser._id,
+            email:newUser.email,
             otp:otp.hashedOtp,
             expiresAt:new Date(Date.now()+60*1000)
         }

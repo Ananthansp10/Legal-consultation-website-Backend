@@ -2,9 +2,8 @@ import mongoose, { Schema } from "mongoose";
 import { OtpEntitie } from "../../domain/otpEntitie";
 
 const otpSchema=new Schema<OtpEntitie>({
-    userId:{
-        type:Schema.Types.ObjectId,
-        ref:"users",
+    email:{
+        type:String,
         required:true
     },
     otp:{

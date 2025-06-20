@@ -1,5 +1,5 @@
 export interface OtpEntitie{
-    userId:any;
+    email:string;
     otp:string;
     hashedOtp ? :string;
     expiresAt:Date;

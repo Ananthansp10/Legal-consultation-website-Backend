@@ -29,8 +29,8 @@ export class SignupMongoRepo implements UserSignupRepo{
         await otpModel.create(otp)
     }
 
-    async findOtp(userId: string): Promise<OtpEntitie | null> {
-        let data=await otpModel.findOne({userId:userId})
+    async findOtp(email: string): Promise<OtpEntitie | null> {
+        let data=await otpModel.findOne({email:email})
         return data;
     }
 

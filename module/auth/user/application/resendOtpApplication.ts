@@ -13,7 +13,7 @@ export const resendOtpApplication=async(data:any,userRepo:UserSignupRepo)=>{
         }
         const otp=await otpGenerate()
         let otpObj:OtpEntitie={
-            userId:data._id,
+            email:data.email,
             otp:otp.hashedOtp,
             expiresAt:new Date(Date.now()+60*1000)
         }

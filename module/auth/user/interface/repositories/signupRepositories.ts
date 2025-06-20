@@ -6,5 +6,5 @@ export interface UserSignupRepo{
     create(data:UserSignup):Promise<UserSignup>;
     activateUser(email:string):Promise<boolean>;
     saveOtp(otp:OtpEntitie):Promise<void>;
-    findOtp(userId:string):Promise<OtpEntitie | null>;
+    findOtp(email:string):Promise<OtpEntitie | null>;
 }

@@ -7,12 +7,15 @@ const adminRouter=require('../Backend/routes/adminRouter')
 import cors from 'cors';
 import { otpDelete } from './module/auth/user/infrastructure/model/otpModel'
 const cron=require('node-cron')
+import cookieParser from 'cookie-parser'
 env.config()
 
 app.use(cors({
   origin: 'http://localhost:5173', 
   credentials: true   
 }));
+
+app.use(cookieParser());
 
 app.use(express.json());
 
