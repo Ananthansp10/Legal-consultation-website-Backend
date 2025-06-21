@@ -14,4 +14,11 @@ export class UserMongoRepositories implements userRepositories{
         const result=await UserModel.findOne({email:email})
         return result;
     }
+
+    async saveNewPassword(email: string, password: string): Promise<boolean> {
+        let result=await UserModel.updateOne({email:email},{$set:{password:password}})
+        return result.modifiedCount>0;
+    }
+
+    
 }

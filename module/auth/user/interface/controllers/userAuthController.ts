@@ -7,6 +7,8 @@ import { SigninMongoRepo } from "../../infrastructure/monoRepositories/signinMon
 import { signinApplication } from "../../application/signinApplication";
 import { forgotPasswordApplication } from "../../application/forgotPasswordApplication";
 import { UserMongoRepositories } from "../../infrastructure/monoRepositories/userMongoRepositories";
+import { changePasswordApplication } from "../../application/changePasswordApplication";
+import { resetPasswordApplication } from "../../application/resetPasswordApplication";
 
 const signupMongoRepo=new SignupMongoRepo()
 const signinMongoRepo=new SigninMongoRepo()
@@ -60,7 +62,7 @@ const UserMongoRepo=new UserMongoRepositories()
                 httpOnly: true,     
                 secure: true,            
                 sameSite: "none",       
-                maxAge: 1000 * 60 * 15,
+                maxAge: 1000 * 60 * 30,
                 });
 
                 res.cookie("refreshToken", result.refreshToken, {
@@ -100,7 +102,35 @@ const UserMongoRepo=new UserMongoRepositories()
         try {
             const result=await forgotPasswordApplication(req.body.email,UserMongoRepo)
             res.status(200).json({success:true,message:"OTP has successfully send to you email",data:result})
+        } catch (error:any) {
+           res.status(error.statusCode).json({success:false,message:error.message})
+        }
+    }
+
+    export const changePaasword=async(req:Request,res:Response)=>{
+        try {
+            let result=await changePasswordApplication(req.body.email,req.body.password,UserMongoRepo)
+            if(result){
+                res.status(200).json({success:true,message:"Password has changed"})
+            }
+        } catch (error:any) {
+            res.status(error.statusCode).json({success:false,message:error.message})
+        }
+    }
+
+    export const resetPassword=async(req:Request,res:Response)=>{
+        try {
+            let result=await resetPasswordApplication(req.body,UserMongoRepo)
+            res.status(200).json({success:true,message:"Password changed successfully"})
+        } catch (error:any) {
+            res.status(error.statusCode).json({success:false,message:error.message})
+        }
+    }
+
+    export const checkAuth=(req:Request,res:Response)=>{
+        try {
+            res.status(200).json({success:true,message:"yes got to the page"})
         } catch (error) {
-           throw error; 
+            res.status(500).json("something were wrong")
         }
     }

@@ -1,5 +1,6 @@
 import express from "express";
-import { forgotPassword, logoutUser, otpVerification, resendOtp, signin } from "../module/auth/user/interface/controllers/userAuthController";
+import { changePaasword, checkAuth, forgotPassword, logoutUser, otpVerification, resendOtp, resetPassword, signin } from "../module/auth/user/interface/controllers/userAuthController";
+import { verifyToken } from "../middlewares/authorizationMiddleware";
 const router=express.Router()
 const {registerUser}=require('../module/auth/user/interface/controllers/userAuthController')
 
@@ -14,5 +15,11 @@ router.post('/signin',signin)
 router.post('/logout/:userId',logoutUser)
 
 router.post('/forgot-password',forgotPassword)
+
+router.post('/change-password',changePaasword)
+
+router.post('/reset-password',resetPassword)
+
+router.get('/checkAuth',verifyToken,checkAuth)
 
 module.exports=router;
